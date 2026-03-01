@@ -46,6 +46,7 @@ h1, h2, h3 {
     justify-content: space-between;
     align-items: center;
     gap: 20px;
+    flex-wrap: wrap; /* Permet le passage à la ligne sur mobile */
 }
 
 /* Logo Styling */
@@ -89,6 +90,18 @@ h1, h2, h3 {
     display: flex;
     align-items: center;
     gap: 25px;
+}
+
+/* Burger Menu (Hidden by default) */
+.menu-toggle {
+    display: none;
+}
+
+.burger-menu {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-secondary);
 }
 
 .main-nav a {
@@ -203,7 +216,7 @@ h1, h2, h3 {
 
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: 1fr; /* Mobile: 1 colonne */
     gap: 20px;
 }
 
@@ -278,7 +291,7 @@ h1, h2, h3 {
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: 1fr; /* Mobile: 1 colonne */
     gap: 30px;
 }
 
@@ -470,4 +483,70 @@ h1, h2, h3 {
     text-align: center;
     font-size: 0.9rem;
     opacity: 0.7;
+}
+
+/* =========================================
+   MEDIA QUERIES (RESPONSIVE)
+   ========================================= */
+
+/* Tablette (>= 768px) */
+@media (min-width: 768px) {
+    .category-grid,
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 colonnes */
+    }
+}
+
+/* Desktop (>= 1024px) */
+@media (min-width: 1024px) {
+    .category-grid,
+    .product-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 colonnes */
+    }
+}
+
+/* Mobile Navigation & Layout (< 1024px) */
+@media (max-width: 1023px) {
+    .burger-menu {
+        display: block; /* Affiche l'icône burger */
+        order: 1;
+    }
+
+    .user-actions {
+        order: 2;
+    }
+
+    /* Cache le menu par défaut */
+    .main-nav {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        background-color: var(--color-white);
+        position: absolute;
+        top: 100%;
+        left: 0;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    .main-nav a {
+        display: block;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+        margin: 0;
+    }
+
+    /* Affiche le menu quand la checkbox est cochée */
+    .menu-toggle:checked ~ .main-nav {
+        display: flex;
+    }
+
+    /* Ajustement de la barre de recherche sur mobile */
+    .search-bar {
+        order: 3;
+        width: 100%;
+        max-width: 100%;
+        margin-top: 10px;
+    }
 }
