@@ -22,21 +22,21 @@
         <div class="container header-flex">
             <!-- Logo (Gauche) -->
             <a href="#" class="logo">
-                <i class="fas fa-leaf"></i>
+                <i class="fas fa-leaf" aria-hidden="true"></i>
                 <span>Saveurs Locales</span>
             </a>
 
             <!-- Barre de recherche (Centre) -->
             <div class="search-bar">
-                <input type="text" placeholder="Rechercher...">
-                <button><i class="fas fa-search"></i></button>
+                <input type="text" placeholder="Rechercher..." aria-label="Rechercher un produit">
+                <button aria-label="Lancer la recherche"><i class="fas fa-search" aria-hidden="true"></i></button>
             </div>
 
             <!-- Navigation & Icônes (Droite) -->
             <div class="header-right">
                 <!-- Menu Burger (Mobile) -->
                 <input type="checkbox" id="menu-toggle" class="menu-toggle">
-                <label for="menu-toggle" class="burger-menu"><i class="fas fa-bars"></i></label>
+                <label for="menu-toggle" class="burger-menu" aria-label="Ouvrir le menu"><i class="fas fa-bars" aria-hidden="true"></i></label>
 
                 <nav class="main-nav">
                     <a href="#">Épicerie</a>
@@ -45,9 +45,9 @@
                     <a href="#">Promotions</a>
                 </nav>
                 <div class="user-actions">
-                    <a href="#"><i class="fas fa-user"></i></a>
-                    <a href="#" class="cart-btn">
-                        <i class="fas fa-shopping-cart"></i>
+                    <a href="#" aria-label="Mon compte"><i class="fas fa-user" aria-hidden="true"></i></a>
+                    <a href="#" class="cart-btn" aria-label="Voir le panier">
+                        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
                         <span class="badge">2</span>
                     </a>
                 </div>
@@ -105,12 +105,12 @@
                     <article class="product-card">
                         <div class="product-card__image-wrapper">
                             <span class="product-card__badge product-card__badge--bio">Bio</span>
-                            <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=500&q=80" alt="Tomates Anciennes" class="product-card__image">
+                            <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=500&q=80" alt="Tomates Anciennes rouges et jaunes" class="product-card__image">
                         </div>
                         <div class="product-card__content">
                             <h3 class="product-card__title">Tomates Anciennes</h3>
                             <p class="product-card__price">4.50€ / kg</p>
-                            <button class="product-card__btn"><i class="fas fa-shopping-basket"></i> Ajouter</button>
+                            <button class="product-card__btn" aria-label="Ajouter Tomates Anciennes au panier"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Ajouter</button>
                         </div>
                     </article>
 
@@ -123,7 +123,7 @@
                         <div class="product-card__content">
                             <h3 class="product-card__title">Pommes Gala</h3>
                             <p class="product-card__price">2.80€ / kg</p>
-                            <button class="product-card__btn"><i class="fas fa-shopping-basket"></i> Ajouter</button>
+                            <button class="product-card__btn" aria-label="Ajouter Pommes Gala au panier"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Ajouter</button>
                         </div>
                     </article>
 
@@ -136,7 +136,7 @@
                         <div class="product-card__content">
                             <h3 class="product-card__title">Carottes Sable</h3>
                             <p class="product-card__price">1.90€ / kg</p>
-                            <button class="product-card__btn"><i class="fas fa-shopping-basket"></i> Ajouter</button>
+                            <button class="product-card__btn" aria-label="Ajouter Carottes Sable au panier"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Ajouter</button>
                         </div>
                     </article>
 
@@ -148,7 +148,7 @@
                         <div class="product-card__content">
                             <h3 class="product-card__title">Salade Verte</h3>
                             <p class="product-card__price">1.20€ / pièce</p>
-                            <button class="product-card__btn"><i class="fas fa-shopping-basket"></i> Ajouter</button>
+                            <button class="product-card__btn" aria-label="Ajouter Salade Verte au panier"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Ajouter</button>
                         </div>
                     </article>
 
@@ -161,7 +161,7 @@
                         <div class="product-card__content">
                             <h3 class="product-card__title">Miel de Fleurs</h3>
                             <p class="product-card__price">12.50€ / pot</p>
-                            <button class="product-card__btn"><i class="fas fa-shopping-basket"></i> Ajouter</button>
+                            <button class="product-card__btn" aria-label="Ajouter Miel de Fleurs au panier"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Ajouter</button>
                         </div>
                     </article>
 
@@ -174,7 +174,7 @@
                         <div class="product-card__content">
                             <h3 class="product-card__title">Pain de Campagne</h3>
                             <p class="product-card__price">3.20€ / pièce</p>
-                            <button class="product-card__btn"><i class="fas fa-shopping-basket"></i> Ajouter</button>
+                            <button class="product-card__btn" aria-label="Ajouter Pain de Campagne au panier"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Ajouter</button>
                         </div>
                     </article>
 
@@ -186,7 +186,7 @@
                         <div class="product-card__content">
                             <h3 class="product-card__title">Huile d'Olive</h3>
                             <p class="product-card__price">15.00€ / L</p>
-                            <button class="product-card__btn"><i class="fas fa-shopping-basket"></i> Ajouter</button>
+                            <button class="product-card__btn" aria-label="Ajouter Huile d'Olive au panier"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Ajouter</button>
                         </div>
                     </article>
 
@@ -199,7 +199,7 @@
                         <div class="product-card__content">
                             <h3 class="product-card__title">Fraises Gariguette</h3>
                             <p class="product-card__price">6.50€ / barquette</p>
-                            <button class="product-card__btn"><i class="fas fa-shopping-basket"></i> Ajouter</button>
+                            <button class="product-card__btn" aria-label="Ajouter Fraises Gariguette au panier"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Ajouter</button>
                         </div>
                     </article>
                 </div>
@@ -214,7 +214,7 @@
                 <h3>Restez informés</h3>
                 <p>Inscrivez-vous à notre newsletter pour recevoir nos offres exclusives et recettes de saison.</p>
                 <form class="newsletter-form">
-                    <input type="email" placeholder="Votre email" required>
+                    <input type="email" placeholder="Votre email" required aria-label="Votre adresse email">
                     <button type="submit">S'inscrire</button>
                 </form>
             </div>
@@ -234,9 +234,9 @@
             <div class="footer-col">
                 <h3>Paiement Sécurisé</h3>
                 <div class="payment-icons">
-                    <i class="fab fa-cc-visa"></i>
-                    <i class="fab fa-cc-mastercard"></i>
-                    <i class="fab fa-cc-paypal"></i>
+                    <i class="fab fa-cc-visa" aria-hidden="true" title="Visa"></i>
+                    <i class="fab fa-cc-mastercard" aria-hidden="true" title="Mastercard"></i>
+                    <i class="fab fa-cc-paypal" aria-hidden="true" title="PayPal"></i>
                 </div>
             </div>
         </div>
