@@ -10,22 +10,44 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="site-header">
-        <div class="container">
-            <h1>Saveurs Locales</h1>
-            <nav>
-                <!-- Navigation placeholder -->
-                <ul>
-                    <li><a href="#">Accueil</a></li>
-                    <li><a href="#">Boutique</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </nav>
+        <div class="container header-flex">
+            <!-- Logo (Gauche) -->
+            <a href="#" class="logo">
+                <i class="fas fa-leaf"></i>
+                <span>Saveurs Locales</span>
+            </a>
+
+            <!-- Barre de recherche (Centre) -->
+            <div class="search-bar">
+                <input type="text" placeholder="Rechercher...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+
+            <!-- Navigation & Icônes (Droite) -->
+            <div class="header-right">
+                <nav class="main-nav">
+                    <a href="#">Épicerie</a>
+                    <a href="#">Frais</a>
+                    <a href="#">Boissons</a>
+                    <a href="#">Promotions</a>
+                </nav>
+                <div class="user-actions">
+                    <a href="#"><i class="fas fa-user"></i></a>
+                    <a href="#" class="cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge">2</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </header>
 
