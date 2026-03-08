@@ -8,7 +8,7 @@
     <!-- Google Fonts: Montserrat & Open Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Barre de progression de lecture -->
+    <div class="scroll-indicator"></div>
+
     <header class="site-header">
         <div class="container header-flex">
             <!-- Logo (Gauche) -->
@@ -37,8 +40,10 @@
                 <!-- Menu Burger (Mobile) -->
                 <input type="checkbox" id="menu-toggle" class="menu-toggle">
                 <label for="menu-toggle" class="burger-menu" aria-label="Ouvrir le menu"><i class="fas fa-bars" aria-hidden="true"></i></label>
+                <div class="menu-overlay"></div>
 
                 <nav class="main-nav">
+                    <button id="close-menu" class="close-menu" aria-label="Fermer le menu"><i class="fas fa-times"></i></button>
                     <a href="#">Épicerie</a>
                     <a href="#">Frais</a>
                     <a href="#">Boissons</a>
@@ -100,117 +105,7 @@
         <section class="products">
             <div class="container">
                 <h2>Produits Phares</h2>
-                <div class="product-grid">
-                    <!-- Produit 1 -->
-                    <article class="product-card">
-                        <div class="product-card__image-wrapper">
-                            <span class="product-card__badge product-card__badge--bio">Bio</span>
-                            <img src="image/tomates.jpeg" alt="Panier de tomates anciennes bio" class="product-card__image">
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">Tomates Anciennes</h3>
-                            <p class="product-card__description">Cultivées en plein champ, ces tomates offrent un goût authentique.</p>
-                            <p class="product-card__price">4.50€ / kg</p>
-                            <button class="product-card__btn" aria-label="Ajouter Tomates Anciennes au panier"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Ajouter</button>
-                        </div>
-                    </article>
-
-                    <!-- Produit 2 -->
-                    <article class="product-card">
-                        <div class="product-card__image-wrapper">
-                            <span class="product-card__badge product-card__badge--promo">-20%</span>
-                            <img src="image/pomme.jpeg" alt="Pommes Gala fraîches et croquantes" class="product-card__image">
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">Pommes Gala</h3>
-                            <p class="product-card__description">Croquantes et juteuses, idéales pour une pause saine.</p>
-                            <p class="product-card__price">2.80€ / kg</p>
-                            <button class="product-card__btn" aria-label="Ajouter Pommes Gala au panier"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Ajouter</button>
-                        </div>
-                    </article>
-
-                    <!-- Produit 3 -->
-                    <article class="product-card">
-                        <div class="product-card__image-wrapper">
-                            <span class="product-card__badge product-card__badge--bio">Bio</span>
-                            <img src="image/carottesss.jpeg" alt="Botte de carottes de sable bio" class="product-card__image">
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">Carottes Sable</h3>
-                            <p class="product-card__description">Douces et savoureuses, directement issues de terres sablonneuses.</p>
-                            <p class="product-card__price">1.90€ / kg</p>
-                            <button class="product-card__btn" aria-label="Ajouter Carottes Sable au panier"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Ajouter</button>
-                        </div>
-                    </article>
-
-                    <!-- Produit 4 -->
-                    <article class="product-card">
-                        <div class="product-card__image-wrapper">
-                            <img src="image/saladevvv.jpeg" alt="Salade verte fraîche du producteur" class="product-card__image">
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">Salade Verte</h3>
-                            <p class="product-card__description">Feuilles tendres et croquantes, fraîcheur garantie.</p>
-                            <p class="product-card__price">1.20€ / pièce</p>
-                            <button class="product-card__btn" aria-label="Ajouter Salade Verte au panier"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Ajouter</button>
-                        </div>
-                    </article>
-
-                    <!-- Produit 5 -->
-                    <article class="product-card">
-                        <div class="product-card__image-wrapper">
-                            <span class="product-card__badge product-card__badge--bio">Bio</span>
-                            <img src="image/miel-de-fleur.jpeg" alt="Pot de miel de fleurs local" class="product-card__image">
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">Miel de Fleurs</h3>
-                            <p class="product-card__description">Un miel polyfloral doux, récolté par nos apiculteurs partenaires.</p>
-                            <p class="product-card__price">12.50€ / pot</p>
-                            <button class="product-card__btn" aria-label="Ajouter Miel de Fleurs au panier"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Ajouter</button>
-                        </div>
-                    </article>
-
-                    <!-- Produit 6 -->
-                    <article class="product-card">
-                        <div class="product-card__image-wrapper">
-                            <span class="product-card__badge product-card__badge--promo">Promo</span>
-                            <img src="image/pain.webp" alt="Pain de campagne artisanal" class="product-card__image">
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">Pain de Campagne</h3>
-                            <p class="product-card__description">Fabriqué avec du levain naturel et une farine locale.</p>
-                            <p class="product-card__price">3.20€ / pièce</p>
-                            <button class="product-card__btn" aria-label="Ajouter Pain de Campagne au panier"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Ajouter</button>
-                        </div>
-                    </article>
-
-                    <!-- Produit 7 -->
-                    <article class="product-card">
-                        <div class="product-card__image-wrapper">
-                            <img src="image/huiles.jpeg" alt="Bouteille d'huile d'olive extra vierge" class="product-card__image">
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">Huile d'Olive</h3>
-                            <p class="product-card__description">Huile d'olive vierge extra, première pression à froid.</p>
-                            <p class="product-card__price">15.00€ / L</p>
-                            <button class="product-card__btn" aria-label="Ajouter Huile d'Olive au panier"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Ajouter</button>
-                        </div>
-                    </article>
-
-                    <!-- Produit 8 -->
-                    <article class="product-card">
-                        <div class="product-card__image-wrapper">
-                            <span class="product-card__badge product-card__badge--bio">Bio</span>
-                            <img src="image/fraise.jpeg" alt="Barquette de fraises Gariguette bio" class="product-card__image">
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">Fraises Gariguette</h3>
-                            <p class="product-card__description">Les premières fraises de la saison, parfumées et sucrées.</p>
-                            <p class="product-card__price">6.50€ / barquette</p>
-                            <button class="product-card__btn" aria-label="Ajouter Fraises Gariguette au panier"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Ajouter</button>
-                        </div>
-                    </article>
-                </div>
+                <div id="product-container" class="product-grid"></div>
                 <div id="no-results-message" class="no-results">
                     <p>Désolé, aucune saveur locale ne correspond à votre recherche 🫗</p>
                     <button id="reset-search-btn">Réinitialiser la recherche</button>
@@ -258,6 +153,15 @@
             </div>
         </div>
     </footer>
+
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Basculer le thème">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+
     <script src="script.js"></script>
 </body>
 </html>

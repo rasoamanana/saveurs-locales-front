@@ -1,26 +1,46 @@
 :root {
-    /* Color Palette */
-    --color-primary: #27AE60;    /* Green */
-    --color-secondary: #2C3E50;  /* Dark Blue */
-    --color-accent: #E67E22;     /* Orange */
-    --color-bg: #F8F9FA;         /* Light Gray */
+    /* Base Theme (Light Mode) */
+    --color-primary: #059669;
+    --color-secondary: #475569;
+    --color-accent: #059669;
+    --color-bg: #f1f5f9;
     --color-white: #FFFFFF;
+    --color-headings: #1e293b;
+    --color-glass-bg: rgba(255, 255, 255, 0.6);
+    --color-glass-border: rgba(0, 0, 0, 0.08);
 
     /* Typography */
-    --font-heading: 'Montserrat', sans-serif;
-    --font-body: 'Open Sans', sans-serif;
+    --font-heading: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+/* Dark Theme (Applied via class) */
+body.dark-mode {
+    --color-primary: #10b981; /* Maintained for accent */
+    --color-secondary: #9e9e9e; /* Softer grey for secondary text */
+    --color-accent: #10b981;
+    --color-bg: #121212; /* Modern deep black background */
+    --color-headings: #e0e0e0; /* Off-white for main text */
+    --color-glass-bg: rgba(255, 255, 255, 0.05); /* More subtle glass effect */
+    --color-glass-border: rgba(255, 255, 255, 0.1);
 }
 
 body {
     font-family: var(--font-body);
-    background-color: var(--color-bg);
+    background-color: var(--color-bg); /* Fallback */
+    background-image: none;
     color: var(--color-secondary);
     line-height: 1.6;
+    transition: background-color 0.4s ease, color 0.4s ease, background-image 0.4s ease;
+}
+
+body.dark-mode {
+    background-image: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
 }
 
 h1, h2, h3 {
     font-family: var(--font-heading);
-    color: var(--color-secondary);
+    color: var(--color-headings);
     margin-bottom: 1rem;
 }
 
@@ -31,14 +51,36 @@ h1, h2, h3 {
     padding: 0 20px;
 }
 
+/* Scroll Indicator */
+.scroll-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background-color: var(--color-primary);
+    z-index: 1001; /* Au-dessus du header */
+    width: 0%;
+}
+
 /* Header Styling */
 .site-header {
-    background-color: var(--color-white);
+    background: var(--color-glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-glass-border);
     padding: 0.8rem 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     position: sticky; /* Fixe au scroll */
     top: 0;
     z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.site-header.scrolled {
+    padding: 0.4rem 0; /* Hauteur réduite */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--color-primary);
+    background: var(--color-glass-bg);
 }
 
 .header-flex {
@@ -57,9 +99,17 @@ h1, h2, h3 {
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 1.5rem;
-    color: var(--color-primary);
+    color: var(--color-headings);
     text-decoration: none;
     transition: transform 0.3s ease;
+}
+
+body.dark-mode .logo {
+    text-shadow: 0 0 12px hsla(158, 82%, 57%, 0.6);
+}
+
+.logo > i {
+    color: var(--color-primary);
 }
 
 /* Search Bar Styling */
@@ -71,14 +121,17 @@ h1, h2, h3 {
 
 .search-bar input {
     width: 100%;
-    padding: 10px 15px;
-    border: 1px solid #ddd;
+    padding: 10px 20px;
+    border: 1px solid var(--color-glass-border);
     border-radius: 25px 0 0 25px;
     outline: none;
+    background: transparent;
+    color: var(--color-white);
+    font-family: var(--font-body);
 }
 
 .search-bar button {
-    background-color: var(--color-secondary);
+    background-color: var(--color-primary);
     color: var(--color-white);
     border: none;
     padding: 0 20px;
@@ -103,7 +156,11 @@ h1, h2, h3 {
     display: none;
     font-size: 1.5rem;
     cursor: pointer;
-    color: var(--color-secondary);
+    color: var(--color-headings);
+}
+
+.close-menu {
+    display: none; /* Caché par défaut sur desktop */
 }
 
 .main-nav a {
@@ -115,7 +172,7 @@ h1, h2, h3 {
 }
 
 .main-nav a:hover {
-    color: var(--color-primary);
+    color: var(--color-white);
 }
 
 .user-actions {
@@ -125,7 +182,7 @@ h1, h2, h3 {
 }
 
 .user-actions a {
-    color: var(--color-secondary);
+    color: var(--color-headings);
     font-size: 1.2rem;
     position: relative;
     text-decoration: none;
@@ -133,14 +190,14 @@ h1, h2, h3 {
 }
 
 .user-actions a:hover {
-    color: var(--color-primary);
+    color: var(--color-white);
 }
 
 .badge {
     position: absolute;
     top: -8px;
     right: -8px;
-    background-color: var(--color-accent);
+    background-color: var(--color-primary);
     color: var(--color-white);
     font-size: 0.7rem;
     font-weight: 700;
@@ -186,7 +243,7 @@ h1, h2, h3 {
 }
 
 .hero h2 {
-    font-size: 3rem;
+    font-size: clamp(2.5rem, 5vw, 3.5rem); /* Responsive font size */
     color: var(--color-white);
     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     margin-bottom: 2rem;
@@ -196,7 +253,7 @@ h1, h2, h3 {
 
 .btn-accent {
     display: inline-block;
-    background-color: var(--color-accent);
+    background-color: var(--color-primary);
     color: var(--color-white);
     padding: 15px 40px;
     border-radius: 50px;
@@ -206,14 +263,28 @@ h1, h2, h3 {
     text-decoration: none;
     transition: transform 0.3s ease, background-color 0.3s ease;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: relative; /* For shimmer effect */
+    overflow: hidden;   /* For shimmer effect */
     opacity: 0; /* Départ invisible pour l'animation */
     animation: fadeUp 1s ease-out 0.5s forwards; /* Délai de 0.5s */
 }
 
 .btn-accent:hover {
-    background-color: #d35400;
+    background-color: #0da874; /* Darker emerald */
     transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+.btn-accent::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+    transform: translateX(-150%) skewX(-25deg);
+    animation: shimmer 5s infinite 2s; /* 5s duration, infinite loop, 2s delay */
 }
 
 /* Animation d'apparition (Fade In Up) */
@@ -225,6 +296,23 @@ h1, h2, h3 {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* Animation de balayage lumineux (Shimmer) */
+@keyframes shimmer {
+    0% {
+        transform: translateX(-150%) skewX(-25deg);
+    }
+    100% {
+        transform: translateX(250%) skewX(-25deg);
+    }
+}
+
+/* Animation de pulsation pour les badges */
+@keyframes pulse {
+    50% {
+        transform: scale(1.1);
     }
 }
 
@@ -305,7 +393,7 @@ h1, h2, h3 {
 /* Products Section */
 .products {
     padding: 4rem 0;
-    background-color: var(--color-white);
+    /* background-color: var(--color-white); Removed for glassmorphism */
 }
 
 .products h2 {
@@ -322,18 +410,25 @@ h1, h2, h3 {
 
 /* Product Card (BEM) */
 .product-card {
-    background-color: var(--color-white);
-    border: 1px solid #eee;
+    background: var(--color-glass-bg);
+    border: 1px solid var(--color-glass-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-radius: 8px;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex; /* Ajout pour des cartes de même hauteur */
-    flex-direction: column; /* Les éléments internes s'empilent verticalement */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.4s ease, border-color 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Pour les interactions avancées au survol */
 }
 
 .product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15), 0 0 20px hsla(158, 95%, 30%, 0.2);
+}
+
+body.dark-mode .product-card:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25), 0 0 24px hsla(158, 82%, 57%, 0.4);
 }
 
 .product-card__image-wrapper {
@@ -350,6 +445,18 @@ h1, h2, h3 {
     transition: transform 0.5s ease;
 }
 
+.product-card__image-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(15, 23, 42, 0.5), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
 .product-card:hover .product-card__image {
     transform: scale(1.05);
 }
@@ -364,14 +471,21 @@ h1, h2, h3 {
     font-weight: 700;
     color: var(--color-white);
     z-index: 10;
+    animation: pulse 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-card:hover .product-card__image-wrapper::after {
+    opacity: 1;
 }
 
 .product-card__badge--bio {
     background-color: var(--color-primary);
+    box-shadow: 0 0 12px hsla(158, 82%, 57%, 0.7);
 }
 
 .product-card__badge--promo {
     background-color: var(--color-accent);
+    box-shadow: 0 0 12px hsla(158, 82%, 57%, 0.7);
 }
 
 .product-card__content {
@@ -385,51 +499,60 @@ h1, h2, h3 {
 .product-card__title {
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
-    color: var(--color-secondary);
+    color: var(--color-headings);
 }
 
 .product-card__description {
     font-size: 0.9rem;
-    color: #555;
+    color: var(--color-secondary);
     margin-bottom: 1rem;
     flex-grow: 1; /* Fait en sorte que la description prenne l'espace disponible */
 }
 
 .product-card__price {
     font-weight: 700;
-    color: var(--color-accent);
     font-size: 1.2rem;
     margin-bottom: 1rem;
+    color: var(--color-primary);
+    transition: opacity 0.3s ease;
 }
 
 .product-card__btn {
-    width: 100%;
-    padding: 10px;
-    background-color: var(--color-secondary);
+    /* Changement pour l'interaction au survol */
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: calc(100% - 40px);
+    padding: 12px;
+    background-color: var(--color-primary);
     color: var(--color-white);
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-weight: 600;
-    transition: background-color 0.3s, transform 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.product-card__btn:hover {
-    background-color: var(--color-primary);
-    transform: scale(1.03);
+.product-card:hover .product-card__price {
+    opacity: 0;
 }
-
+.product-card:hover .product-card__btn {
+    opacity: 1;
+    transform: translateY(0);
+}
 /* Message "Aucun Résultat" */
 .no-results {
     display: none; /* Caché par défaut */
     grid-column: 1 / -1; /* S'étend sur toutes les colonnes de la grille de produits */
     text-align: center;
     padding: 4rem 2rem;
-    color: #6c757d; /* Gris doux */
+    color: var(--color-secondary);
 }
 
 .no-results p {
@@ -438,7 +561,7 @@ h1, h2, h3 {
 }
 
 .no-results button {
-    background-color: var(--color-accent);
+    background-color: var(--color-primary);
     color: var(--color-white);
     border: none;
     padding: 12px 24px;
@@ -450,15 +573,16 @@ h1, h2, h3 {
 }
 
 .no-results button:hover {
-    background-color: #d35400; /* Accent plus foncé */
+    background-color: #0da874; /* Darker emerald */
     transform: translateY(-2px);
 }
 
 /* Footer Styling */
 .site-footer {
-    background-color: var(--color-secondary);
-    color: var(--color-white);
+    background-color: transparent;
+    color: var(--color-secondary);
     padding-top: 4rem;
+    border-top: 1px solid var(--color-glass-border);
 }
 
 .footer-grid {
@@ -469,7 +593,7 @@ h1, h2, h3 {
 }
 
 .footer-col h3 {
-    color: var(--color-white);
+    color: var(--color-headings);
     font-size: 1.2rem;
     margin-bottom: 1.5rem;
     position: relative;
@@ -482,7 +606,7 @@ h1, h2, h3 {
     bottom: -10px;
     width: 40px;
     height: 3px;
-    background-color: var(--color-accent);
+    background-color: var(--color-primary);
 }
 
 .footer-col p {
@@ -499,12 +623,13 @@ h1, h2, h3 {
 
 .newsletter-form input {
     flex: 1;
-    padding: 10px 15px;
-    border: none;
+    padding: 12px 15px;
+    border: 1px solid var(--color-glass-border);
     border-radius: 4px;
     outline: none;
+    background: transparent;
+    color: var(--color-white);
 }
-
 .newsletter-form button {
     background-color: var(--color-accent);
     color: var(--color-white);
@@ -517,7 +642,7 @@ h1, h2, h3 {
 }
 
 .newsletter-form button:hover {
-    background-color: #d35400;
+    background-color: #0da874;
 }
 
 /* Footer Links */
@@ -526,15 +651,13 @@ h1, h2, h3 {
 }
 
 .footer-links a {
-    color: var(--color-white);
+    color: var(--color-secondary);
     text-decoration: none;
-    opacity: 0.8;
     transition: opacity 0.3s, color 0.3s;
 }
 
 .footer-links a:hover {
-    opacity: 1;
-    color: var(--color-accent);
+    color: var(--color-white);
 }
 
 /* Payment Icons */
@@ -554,16 +677,97 @@ h1, h2, h3 {
     opacity: 0.7;
 }
 
+body:not(.dark-mode) .footer-bottom {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* =========================================
+   CUSTOM CURSOR
+   ========================================= */
+
+.custom-cursor {
+    position: fixed;
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--color-headings);
+    border-radius: 50%;
+    z-index: 2000;
+    pointer-events: none; /* Le curseur ne bloque jamais les clics */
+    transform: translate(-50%, -50%);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                height 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                background-color 0.3s ease;
+    mix-blend-mode: difference;
+    opacity: 0; /* Invisible tant que la souris n'a pas bougé */
+}
+
+body.custom-cursor-active .custom-cursor {
+    opacity: 1;
+}
+
+.custom-cursor.grow {
+    width: 48px;
+    height: 48px;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+/* =========================================
+   THEME TOGGLE BUTTON
+   ========================================= */
+.theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--color-glass-bg);
+    border: 1px solid var(--color-glass-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--color-headings);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    background: var(--color-primary);
+    color: var(--color-white);
+}
+
+
+/* =========================================
+   SCROLL REVEAL ANIMATION
+   ========================================= */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform; /* Performance hint */
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* =========================================
    MEDIA QUERIES (RESPONSIVE)
    ========================================= */
 
 /* Tablette (>= 768px) */
 @media (min-width: 768px) {
-    .category-grid,
-    .product-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 colonnes */
-    }
+    .category-grid { grid-template-columns: repeat(2, 1fr); }
+    .product-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* Desktop (>= 1024px) */
@@ -585,30 +789,74 @@ h1, h2, h3 {
         order: 2;
     }
 
-    /* Cache le menu par défaut */
+    /* Sidebar Menu (Off-Canvas) */
     .main-nav {
-        display: none;
-        width: 100%;
+        display: flex;
         flex-direction: column;
-        background-color: var(--color-white);
-        position: absolute;
-        top: 100%;
+        position: fixed;
+        top: 0;
         left: 0;
-        padding: 20px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        text-align: center;
+        width: 280px;
+        height: 100vh;
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 80px 20px 20px; /* Espace en haut pour ne pas coller */
+        box-shadow: 4px 0 15px rgba(0,0,0,0.3);
+        transform: translateX(-100%);
+        opacity: 0;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+        z-index: 1002; /* Au-dessus de tout */
+        text-align: left;
+    }
+
+    /* Overlay (Fond sombre) */
+    .menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+        z-index: 1001;
     }
 
     .main-nav a {
         display: block;
         padding: 10px 0;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         margin: 0;
+        color: #ffffff;
     }
 
-    /* Affiche le menu quand la checkbox est cochée */
+    /* Bouton de fermeture sidebar */
+    .close-menu {
+        display: block; /* Rendu visible sur mobile */
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        color: #ffffff;
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 10;
+        padding: 5px; /* Facilite le clic */
+    }
+
+    /* Logique d'ouverture */
     .menu-toggle:checked ~ .main-nav {
-        display: flex;
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    .menu-toggle:checked ~ .menu-overlay {
+        opacity: 1;
+        pointer-events: auto;
     }
 
     /* Ajustement de la barre de recherche sur mobile */
@@ -617,12 +865,5 @@ h1, h2, h3 {
         width: 100%;
         max-width: 100%;
         margin-top: 10px;
-    }
-}
-
-/* Tablette (>= 768px) */
-@media (min-width: 768px) {
-    .product-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 colonnes */
     }
 }
