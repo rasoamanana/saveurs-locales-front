@@ -1,298 +1,395 @@
-// Attend que le contenu du DOM soit entièrement chargé avant d'exécuter le script.
-// C'est une bonne pratique pour s'assurer que tous les éléments HTML sont disponibles.
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- SÉLECTION DES ÉLÉMÉNTS DU DOM ---
-    // On récupère les éléments avec lesquels on va interagir.
-    const searchInput = document.querySelector('.search-bar input[type="text"]');
-    const productContainer = document.getElementById('product-container');
-    const noResultsMessage = document.getElementById('no-results-message');
-    const resetSearchBtn = document.getElementById('reset-search-btn');
+    // =====================
+    //  CANVAS BACKGROUND
+    // =====================
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
 
-    // --- DONNÉES PRODUITS (JSON) ---
+    const resize = () => {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const isDark = () => document.body.classList.contains('dark-mode');
+
+    class Particle {
+        constructor() { this.reset(true); }
+        reset(init = false) {
+            this.x = Math.random() * W;
+            this.y = init ? Math.random() * H : H + 10;
+            this.size = Math.random() * 2 + 0.5;
+            this.speed = Math.random() * 0.4 + 0.1;
+            this.opacity = Math.random() * 0.5 + 0.1;
+            this.drift = (Math.random() - 0.5) * 0.3;
+        }
+        update() {
+            this.y -= this.speed;
+            this.x += this.drift;
+            if (this.y < -10) this.reset();
+        }
+        draw() {
+            const color = isDark() ? `rgba(74,222,128,${this.opacity})` : `rgba(34,197,94,${this.opacity * 0.6})`;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.fill();
+        }
+    }
+
+    for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+    const animateCanvas = () => {
+        ctx.clearRect(0, 0, W, H);
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(animateCanvas);
+    };
+    animateCanvas();
+
+    // =====================
+    //  PRODUCT DATA
+    // =====================
     const productsData = [
         {
-            id: 1,
-            title: "Tomates Anciennes",
+            id: 1, title: "Tomates Anciennes",
             description: "Cultivées en plein champ, ces tomates offrent un goût authentique.",
-            price: "4.50€ / kg",
-            image: "image/tomates.jpeg",
-            badge: "Bio",
-            badgeClass: "product-card__badge--bio"
+            price: "4.50€ / kg", image: "image/tomates.jpeg",
+            badge: "Bio", badgeClass: "product-card__badge--bio",
+            tags: ["bio", "legumes"]
         },
         {
-            id: 2,
-            title: "Pommes Gala",
+            id: 2, title: "Pommes Gala",
             description: "Croquantes et juteuses, idéales pour une pause saine.",
-            price: "2.80€ / kg",
-            image: "image/pomme.jpeg",
-            badge: "-20%",
-            badgeClass: "product-card__badge--promo"
+            price: "2.80€ / kg", image: "image/pomme.jpeg",
+            badge: "-20%", badgeClass: "product-card__badge--promo",
+            tags: ["promo", "fruits"]
         },
         {
-            id: 3,
-            title: "Carottes Sable",
-            description: "Douces et savoureuses, directement issues de terres sablonneuses.",
-            price: "1.90€ / kg",
-            image: "image/carottesss.jpeg",
-            badge: "Bio",
-            badgeClass: "product-card__badge--bio"
+            id: 3, title: "Carottes Sable",
+            description: "Douces et savoureuses, issues de terres sablonneuses.",
+            price: "1.90€ / kg", image: "image/carottesss.jpeg",
+            badge: "Bio", badgeClass: "product-card__badge--bio",
+            tags: ["bio", "legumes"]
         },
         {
-            id: 4,
-            title: "Salade Verte",
+            id: 4, title: "Salade Verte",
             description: "Feuilles tendres et croquantes, fraîcheur garantie.",
-            price: "1.20€ / pièce",
-            image: "image/saladevvv.jpeg",
-            badge: null,
-            badgeClass: null
+            price: "1.20€ / pièce", image: "image/saladevvv.jpeg",
+            badge: null, badgeClass: null,
+            tags: ["legumes"]
         },
         {
-            id: 5,
-            title: "Miel de Fleurs",
-            description: "Un miel polyfloral doux, récolté par nos apiculteurs partenaires.",
-            price: "12.50€ / pot",
-            image: "image/miel-de-fleur.jpeg",
-            badge: "Bio",
-            badgeClass: "product-card__badge--bio"
+            id: 5, title: "Miel de Fleurs",
+            description: "Un miel polyfloral doux, récolté par nos apiculteurs.",
+            price: "12.50€ / pot", image: "image/miel-de-fleur.jpeg",
+            badge: "Bio", badgeClass: "product-card__badge--bio",
+            tags: ["bio", "epicerie"]
         },
         {
-            id: 6,
-            title: "Pain de Campagne",
+            id: 6, title: "Pain de Campagne",
             description: "Fabriqué avec du levain naturel et une farine locale.",
-            price: "3.20€ / pièce",
-            image: "image/pain.webp",
-            badge: "Promo",
-            badgeClass: "product-card__badge--promo"
+            price: "3.20€ / pièce", image: "image/pain.webp",
+            badge: "Promo", badgeClass: "product-card__badge--promo",
+            tags: ["promo", "epicerie"]
         },
         {
-            id: 7,
-            title: "Huile d'Olive",
-            description: "Huile d'olive vierge extra, première pression à froid.",
-            price: "15.00€ / L",
-            image: "image/huiles.jpeg",
-            badge: null,
-            badgeClass: null
+            id: 7, title: "Huile d'Olive",
+            description: "Vierge extra, première pression à froid.",
+            price: "15.00€ / L", image: "image/huiles.jpeg",
+            badge: null, badgeClass: null,
+            tags: ["epicerie"]
         },
         {
-            id: 8,
-            title: "Fraises Gariguette",
+            id: 8, title: "Fraises Gariguette",
             description: "Les premières fraises de la saison, parfumées et sucrées.",
-            price: "6.50€ / barquette",
-            image: "image/fraise.jpeg",
-            badge: "Bio",
-            badgeClass: "product-card__badge--bio"
+            price: "6.50€ / barquette", image: "image/fraise.jpeg",
+            badge: "Bio", badgeClass: "product-card__badge--bio",
+            tags: ["bio", "fruits"]
+        },
+        {
+            id: 9, title: "Jus de Pomme Artisanal",
+            description: "Pressé à froid depuis nos vergers normands, sans sucre ajouté.",
+            price: "4.90€ / 75cl",
+            image: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600&q=80",
+            badge: "Bio", badgeClass: "product-card__badge--bio",
+            tags: ["bio", "boissons"]
+        },
+        {
+            id: 10, title: "Limonade Artisanale",
+            description: "Citronnée, pétillante et rafraîchissante, sans conservateurs.",
+            price: "3.20€ / 50cl",
+            image: "https://images.unsplash.com/photo-1437418747212-8d9709afab22?w=600&q=80",
+            badge: "-20%", badgeClass: "product-card__badge--promo",
+            tags: ["promo", "boissons"]
+        },
+        {
+            id: 12, title: "Smoothie Tropical",
+            description: "Mangue, ananas et passion mixés à froid, 100% fruits.",
+            price: "4.20€ / 25cl",
+            image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=600&q=80",
+            badge: null, badgeClass: null,
+            tags: ["boissons", "fruits"]
+        },
+        {
+            id: 13, title: "Eau Pétillante Minérale",
+            description: "Source naturelle des Alpes, légèrement minéralisée et pétillante.",
+            price: "1.80€ / L",
+            image: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=600&q=80",
+            badge: null, badgeClass: null,
+            tags: ["boissons"]
         }
     ];
 
-    /**
-     * Fonction pour normaliser une chaîne de caractères pour la recherche.
-     * - Met le texte en minuscules.
-     * - Supprime les accents (ex: "épice" devient "epice").
-     * - Supprime les espaces superflus au début et à la fin.
-     * @param {string} str - La chaîne à normaliser.
-     * @returns {string} La chaîne normalisée, prête pour la comparaison.
-     */
-    const normalizeText = (str) => {
-        // Si la chaîne est vide ou nulle, on retourne une chaîne vide pour éviter les erreurs.
+    // =====================
+    //  UTILS
+    // =====================
+    const normalizeText = str => {
         if (!str) return '';
-        // La méthode normalize('NFD') sépare les caractères de leurs accents.
-        // Le replace avec une expression régulière supprime ensuite ces accents.
         return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
     };
 
-    // --- LOGIQUE D'ANIMATION AU SCROLL (INTERSECTION OBSERVER) ---
+    // =====================
+    //  DOM REFS
+    // =====================
+    const searchInput = document.querySelector('.search-bar input');
+    const productContainer = document.getElementById('product-container');
+    const noResultsMsg = document.getElementById('no-results-message');
+    const resetBtn = document.getElementById('reset-search-btn');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cursor = document.querySelector('.custom-cursor');
+    const trail = document.querySelector('.cursor-trail');
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    const header = document.querySelector('.site-header');
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = themeToggle.querySelector('i');
+    const body = document.body;
 
-    // 1. Créer l'observateur qui ajoutera la classe de visibilité
-    const revealObserver = new IntersectionObserver((entries, observer) => {
+    let activeFilter = 'all';
+
+    // =====================
+    //  INTERSECTION OBSERVER
+    // =====================
+    const observer = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target); // On arrête de l'observer après l'animation
+                obs.unobserve(entry.target);
             }
         });
-    }, {
-        threshold: 0.1
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.category-card, .section-header, .footer-col').forEach(el => {
+        el.classList.add('reveal');
+        observer.observe(el);
     });
 
-    // --- CUSTOM CURSOR LOGIC ---
-    const cursor = document.querySelector('.custom-cursor');
-    
-    window.addEventListener('mousemove', e => {
-        cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
-        if (!document.body.classList.contains('custom-cursor-active')) {
-            document.body.classList.add('custom-cursor-active');
-        }
-    });
-
-    // --- FONCTION D'AFFICHAGE DES PRODUITS ---
+    // =====================
+    //  RENDER PRODUCTS
+    // =====================
     const displayProducts = (products) => {
-        productContainer.innerHTML = ''; // On vide le conteneur
+        productContainer.innerHTML = '';
 
         if (products.length === 0) {
-            noResultsMessage.style.display = 'block';
+            noResultsMsg.style.display = 'block';
             return;
-        } else {
-            noResultsMessage.style.display = 'none';
         }
+        noResultsMsg.style.display = 'none';
 
         products.forEach((product, index) => {
             const article = document.createElement('article');
-            article.classList.add('product-card', 'reveal'); // Ajout direct de la classe reveal
-            article.style.transitionDelay = `${index * 75}ms`; // Effet décalé
+            article.classList.add('product-card', 'reveal');
+            article.style.transitionDelay = `${index * 60}ms`;
 
-            let badgeHTML = '';
-            if (product.badge) {
-                badgeHTML = `<span class="product-card__badge ${product.badgeClass}">${product.badge}</span>`;
-            }
+            const badge = product.badge
+                ? `<span class="product-card__badge ${product.badgeClass}">${product.badge}</span>`
+                : '';
 
             article.innerHTML = `
                 <div class="product-card__image-wrapper">
-                    ${badgeHTML}
-                    <img src="${product.image}" alt="${product.title}" class="product-card__image">
+                    ${badge}
+                    <img src="${product.image}" alt="${product.title}" class="product-card__image" loading="lazy">
                 </div>
                 <div class="product-card__content">
                     <h3 class="product-card__title">${product.title}</h3>
                     <p class="product-card__description">${product.description}</p>
-                    <p class="product-card__price">${product.price}</p>
-                    <button class="product-card__btn" aria-label="Ajouter ${product.title} au panier"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Ajouter</button>
+                    <div class="product-card__footer">
+                        <p class="product-card__price">${product.price}</p>
+                        <button class="product-card__btn" aria-label="Ajouter ${product.title}">
+                            <i class="fas fa-plus"></i> Ajouter
+                        </button>
+                    </div>
                 </div>
             `;
+
             productContainer.appendChild(article);
+            observer.observe(article);
 
-            // Observer le nouvel élément pour l'animation
-            revealObserver.observe(article);
-
-            // Ajouter les écouteurs pour le curseur personnalisé
             const btn = article.querySelector('.product-card__btn');
-            btn.addEventListener('mouseenter', () => cursor.classList.add('grow'));
-            btn.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
+            btn.addEventListener('mouseenter', () => { if (isDesktop()) { cursor.classList.add('grow'); trail.classList.add('grow'); } });
+            btn.addEventListener('mouseleave', () => { cursor.classList.remove('grow'); trail.classList.remove('grow'); });
+
+            btn.addEventListener('click', () => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Ajouté!';
+                btn.style.background = '#16a34a';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-plus"></i> Ajouter';
+                    btn.style.background = '';
+                }, 1500);
+            });
         });
     };
 
-    // --- FILTRAGE DES PRODUITS (JSON) ---
-    const filterProducts = () => {
+    // =====================
+    //  FILTER LOGIC
+    // =====================
+    const applyFilters = () => {
         const searchTerm = normalizeText(searchInput.value);
-        const filtered = productsData.filter(product => {
-            const searchString = normalizeText(`${product.title} ${product.description} ${product.badge || ''}`);
-            return searchString.includes(searchTerm);
+        const filtered = productsData.filter(p => {
+            const matchSearch = normalizeText(`${p.title} ${p.description} ${p.badge || ''}`).includes(searchTerm);
+            const matchFilter = activeFilter === 'all' || p.tags.includes(activeFilter);
+            return matchSearch && matchFilter;
         });
         displayProducts(filtered);
     };
 
-    // --- AJOUT DES ÉCOUTEURS D'ÉVÉNEMENTS ---
-    searchInput.addEventListener('input', filterProducts);
-    resetSearchBtn.addEventListener('click', () => {
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeFilter = btn.dataset.filter;
+            applyFilters();
+        });
+    });
+
+    searchInput.addEventListener('input', applyFilters);
+    resetBtn.addEventListener('click', () => {
         searchInput.value = '';
-        filterProducts();
+        activeFilter = 'all';
+        filterBtns.forEach(b => b.classList.remove('active'));
+        filterBtns[0].classList.add('active');
+        applyFilters();
     });
 
-    // --- INITIALISATION DES ÉLÉMENTS STATIQUES ---
-    // Observer les éléments statiques (titres, footer, catégories)
-    const elementsToReveal = document.querySelectorAll('.category-card, .categories h2, .products h2, .footer-col');
-    elementsToReveal.forEach(element => {
-        element.classList.add('reveal');
-        revealObserver.observe(element);
+    // =====================
+    //  CURSOR (desktop only)
+    // =====================
+    const isDesktop = () => window.matchMedia('(pointer: fine) and (min-width: 1024px)').matches;
+    let cursorX = 0, cursorY = 0, trailX = 0, trailY = 0;
+
+    window.addEventListener('mousemove', e => {
+        if (!isDesktop()) return;
+        cursorX = e.clientX;
+        cursorY = e.clientY;
+        cursor.style.left = cursorX + 'px';
+        cursor.style.top = cursorY + 'px';
+        if (!body.classList.contains('cursor-active')) body.classList.add('cursor-active');
     });
 
-    // --- HEADER DYNAMIQUE & SCROLL INDICATOR ---
-    const header = document.querySelector('.site-header');
-    const scrollIndicator = document.querySelector('.scroll-indicator');
+    const animateCursor = () => {
+        if (isDesktop()) {
+            trailX += (cursorX - trailX) * 0.12;
+            trailY += (cursorY - trailY) * 0.12;
+            trail.style.left = trailX + 'px';
+            trail.style.top = trailY + 'px';
+        }
+        requestAnimationFrame(animateCursor);
+    };
+    animateCursor();
 
+    document.querySelectorAll('a, button, .category-card, .filter-btn').forEach(el => {
+        el.addEventListener('mouseenter', () => { if (isDesktop()) { cursor.classList.add('grow'); trail.classList.add('grow'); } });
+        el.addEventListener('mouseleave', () => { cursor.classList.remove('grow'); trail.classList.remove('grow'); });
+    });
+
+    // =====================
+    //  SCROLL
+    // =====================
     window.addEventListener('scroll', () => {
-        // 1. Gestion de la classe .scrolled
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-
-        // 2. Barre de progression
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
-        scrollIndicator.style.width = scrolled + "%";
+        header.classList.toggle('scrolled', window.scrollY > 50);
+        const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        scrollIndicator.style.width = ((document.documentElement.scrollTop / h) * 100) + '%';
     });
 
-    // Curseur sur les éléments statiques
-    const interactiveElements = document.querySelectorAll('a, button, .category-card');
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursor.classList.add('grow');
-        });
-        el.addEventListener('mouseleave', () => {
-            cursor.classList.remove('grow');
-        });
-    });
-
-    // --- GESTION DU DARK MODE ---
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const body = document.body;
-    const themeIcon = themeToggleBtn.querySelector('i');
-
-    const updateIcon = () => {
-        if (body.classList.contains('dark-mode')) {
-            themeIcon.classList.remove('fa-moon');
-            themeIcon.classList.add('fa-sun');
-        } else {
-            themeIcon.classList.remove('fa-sun');
-            themeIcon.classList.add('fa-moon');
-        }
+    // =====================
+    //  DARK MODE
+    // =====================
+    const updateThemeIcon = () => {
+        const dark = body.classList.contains('dark-mode');
+        themeIcon.className = dark ? 'fas fa-sun' : 'fas fa-moon';
     };
 
-    // 1. Vérifier la préférence sauvegardée ou système au chargement
-    const savedTheme = localStorage.getItem('theme');
-    
-    if (savedTheme === 'dark') {
-        body.classList.add('dark-mode');
-    } else if (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        // Si aucune sauvegarde, on respecte la préférence système
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         body.classList.add('dark-mode');
     }
-    updateIcon();
+    updateThemeIcon();
 
-    // 2. Fonction de basculement au clic
-    themeToggleBtn.addEventListener('click', () => {
+    themeToggle.addEventListener('click', () => {
         body.classList.toggle('dark-mode');
-        updateIcon();
-        
-        // Sauvegarder le choix de l'utilisateur
-        if (body.classList.contains('dark-mode')) {
-            localStorage.setItem('theme', 'dark');
-        } else {
-            localStorage.setItem('theme', 'light');
-        }
+        localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+        updateThemeIcon();
     });
 
-    // --- AFFICHAGE INITIAL ---
+    // =====================
+    //  MOBILE MENU
+    // =====================
+    const closeMenu = () => { const t = document.getElementById('menu-toggle'); if (t) t.checked = false; };
+    document.getElementById('close-menu')?.addEventListener('click', closeMenu);
+    document.querySelector('.menu-overlay')?.addEventListener('click', closeMenu);
+    document.querySelectorAll('.main-nav a').forEach(a => a.addEventListener('click', closeMenu));
+    window.addEventListener('resize', () => { if (window.innerWidth > 1024) closeMenu(); });
+
+    // =====================
+    //  NAV LINKS → filter + scroll
+    // =====================
+    const activateFilter = (filterValue) => {
+        activeFilter = filterValue;
+        filterBtns.forEach(b => {
+            b.classList.toggle('active', b.dataset.filter === filterValue);
+        });
+        applyFilters();
+    };
+
+    document.querySelectorAll('.nav-link[data-nav-filter]').forEach(link => {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            const f = link.dataset.navFilter;
+            activateFilter(f);
+            document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+
+    // Category cards → filter + scroll to products
+    document.querySelectorAll('.category-card[data-filter]').forEach(card => {
+        card.addEventListener('click', e => {
+            e.preventDefault();
+            const f = card.dataset.filter;
+            // Map category filter values to product tag names
+            const map = { fruits: 'fruits', legumes: 'legumes', viandes: 'epicerie', cremerie: 'epicerie', boissons: 'boissons' };
+            activateFilter(map[f] || f);
+            document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+
+    // =====================
+    //  INIT
+    // =====================
     displayProducts(productsData);
 
-    // --- GESTION DU MENU MOBILE (FERMETURE) ---
-    const closeMenuBtn = document.getElementById('close-menu');
-    const menuCheckbox = document.getElementById('menu-toggle');
-    const menuLinks = document.querySelectorAll('.main-nav a');
-    const menuOverlay = document.querySelector('.menu-overlay');
-
-    const closeMenu = () => {
-        if (menuCheckbox) menuCheckbox.checked = false;
-    };
-
-    if (closeMenuBtn) {
-        closeMenuBtn.addEventListener('click', closeMenu);
-    }
-
-    if (menuOverlay) {
-        menuOverlay.addEventListener('click', closeMenu);
-    }
-
-    menuLinks.forEach(link => {
-        link.addEventListener('click', closeMenu);
+    // Scroll to products from hero CTA
+    document.querySelectorAll('a[href="#products"]').forEach(a => {
+        a.addEventListener('click', e => {
+            e.preventDefault();
+            document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+        });
     });
-
-    // --- GESTION DU REDIMENSIONNEMENT ---
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 1024) {
-            closeMenu();
-        }
+    document.querySelectorAll('a[href="#categories"]').forEach(a => {
+        a.addEventListener('click', e => {
+            e.preventDefault();
+            document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' });
+        });
     });
 });

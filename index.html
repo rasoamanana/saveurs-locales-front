@@ -3,56 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saveurs Locales</title>
-    
-    <!-- Google Fonts: Montserrat & Open Sans -->
+    <title>Saveurs Locales — An 3000</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome for Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Stylesheets -->
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Barre de progression de lecture -->
     <div class="scroll-indicator"></div>
+    <canvas id="bg-canvas"></canvas>
 
     <header class="site-header">
         <div class="container header-flex">
-            <!-- Logo (Gauche) -->
             <a href="#" class="logo">
-                <i class="fas fa-leaf" aria-hidden="true"></i>
-                <span>Saveurs Locales</span>
+                <div class="logo-icon">
+                    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
+                        <path d="M20 8 C14 14 10 18 12 24 C14 30 26 30 28 24 C30 18 26 14 20 8Z" fill="currentColor" opacity="0.8"/>
+                        <path d="M20 8 L20 26" stroke="var(--color-bg)" stroke-width="1.5"/>
+                        <path d="M14 16 L20 20" stroke="var(--color-bg)" stroke-width="1.2"/>
+                    </svg>
+                </div>
+                <span>Saveurs<em>Locales</em></span>
             </a>
 
-            <!-- Barre de recherche (Centre) -->
             <div class="search-bar">
-                <input type="text" placeholder="Rechercher..." aria-label="Rechercher un produit">
-                <button aria-label="Lancer la recherche"><i class="fas fa-search" aria-hidden="true"></i></button>
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" placeholder="Rechercher un produit..." aria-label="Rechercher">
+                <span class="search-pulse"></span>
             </div>
 
-            <!-- Navigation & Icônes (Droite) -->
             <div class="header-right">
-                <!-- Menu Burger (Mobile) -->
                 <input type="checkbox" id="menu-toggle" class="menu-toggle">
-                <label for="menu-toggle" class="burger-menu" aria-label="Ouvrir le menu"><i class="fas fa-bars" aria-hidden="true"></i></label>
+                <label for="menu-toggle" class="burger-menu" aria-label="Menu"><i class="fas fa-bars"></i></label>
                 <div class="menu-overlay"></div>
 
                 <nav class="main-nav">
-                    <button id="close-menu" class="close-menu" aria-label="Fermer le menu"><i class="fas fa-times"></i></button>
-                    <a href="#">Épicerie</a>
-                    <a href="#">Frais</a>
-                    <a href="#">Boissons</a>
-                    <a href="#">Promotions</a>
+                    <button id="close-menu" class="close-menu"><i class="fas fa-times"></i></button>
+                    <a href="#categories" class="nav-link">Épicerie</a>
+                    <a href="#products" data-nav-filter="legumes" class="nav-link">Frais</a>
+                    <a href="#products" data-nav-filter="boissons" class="nav-link">Boissons</a>
+                    <a href="#products" data-nav-filter="promo" class="nav-link">Promotions</a>
                 </nav>
                 <div class="user-actions">
-                    <a href="#" aria-label="Mon compte"><i class="fas fa-user" aria-hidden="true"></i></a>
-                    <a href="#" class="cart-btn" aria-label="Voir le panier">
-                        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                    <a href="#" aria-label="Mon compte" class="action-btn"><i class="fas fa-user"></i></a>
+                    <a href="#" class="cart-btn action-btn" aria-label="Panier">
+                        <i class="fas fa-shopping-bag"></i>
                         <span class="badge">2</span>
                     </a>
                 </div>
@@ -61,106 +60,216 @@
     </header>
 
     <main>
+        <!-- HERO -->
         <section class="hero">
-            <h2>Le meilleur du terroir, livré chez vous</h2>
-            <a href="#" class="btn-accent">Découvrir nos produits</a>
+            <div class="hero-bg-orbs">
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
+                <div class="orb orb-3"></div>
+            </div>
+            <div class="hero-content">
+                <div class="hero-tag">🌿 Agriculture Régénérative • Livraison Express</div>
+                <h1>Le meilleur du terroir,<br><span class="gradient-text">réinventé pour demain</span></h1>
+                <p class="hero-sub">Des producteurs locaux soigneusement sélectionnés, directement dans votre cuisine.</p>
+                <div class="hero-actions">
+                    <a href="#products" class="btn-primary">
+                        <span>Explorer les produits</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#categories" class="btn-ghost">Voir les catégories</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat"><strong>240+</strong><span>Producteurs</span></div>
+                    <div class="stat-divider"></div>
+                    <div class="stat"><strong>98%</strong><span>Bio certifié</span></div>
+                    <div class="stat-divider"></div>
+                    <div class="stat"><strong>24h</strong><span>Livraison</span></div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-img-ring">
+                    <img src="https://images.unsplash.com/photo-1610348725531-843dff563e2c?w=600&q=80" alt="Produits frais" class="hero-img">
+                    <div class="ring ring-1"></div>
+                    <div class="ring ring-2"></div>
+                    <div class="ring ring-3"></div>
+                    <div class="float-badge badge-top">🌱 Bio</div>
+                    <div class="float-badge badge-bottom">✦ Local</div>
+                </div>
+            </div>
         </section>
-        
-        <section class="categories">
+
+        <!-- CATEGORIES -->
+        <section class="categories" id="categories">
             <div class="container">
-                <h2>Nos Catégories</h2>
+                <div class="section-header">
+                    <div class="section-header-left">
+                        <div class="section-label">Collections</div>
+                        <h2>Nos <em>Catégories</em></h2>
+                    </div>
+                    <span class="section-header-meta">4 univers • Producteurs locaux</span>
+                </div>
                 <div class="category-grid">
-                    <!-- Fruits -->
-                    <a href="#" class="category-card">
+                    <a href="#" class="category-card" data-filter="fruits">
                         <div class="category-bg" style="background-image: url('image/fruits.webp');"></div>
+                        <div class="category-overlay"></div>
                         <div class="category-content">
+                            <div class="category-icon">🍎</div>
                             <h3>Fruits</h3>
+                            <span class="category-count">24 produits</span>
                         </div>
                     </a>
-                    <!-- Légumes -->
-                    <a href="#" class="category-card">
+                    <a href="#" class="category-card" data-filter="legumes">
                         <div class="category-bg" style="background-image: url('image/legume.jpeg');"></div>
+                        <div class="category-overlay"></div>
                         <div class="category-content">
+                            <div class="category-icon">🥦</div>
                             <h3>Légumes</h3>
+                            <span class="category-count">38 produits</span>
                         </div>
                     </a>
-                    <!-- Viandes -->
-                    <a href="#" class="category-card">
+                    <a href="#" class="category-card" data-filter="viandes">
                         <div class="category-bg" style="background-image: url('image/viande.webp');"></div>
+                        <div class="category-overlay"></div>
                         <div class="category-content">
+                            <div class="category-icon">🥩</div>
                             <h3>Viandes</h3>
+                            <span class="category-count">16 produits</span>
                         </div>
                     </a>
-                    <!-- Crémerie -->
-                    <a href="#" class="category-card">
+                    <a href="#" class="category-card" data-filter="cremerie">
                         <div class="category-bg" style="background-image: url('image/cremerie.jpeg');"></div>
+                        <div class="category-overlay"></div>
                         <div class="category-content">
+                            <div class="category-icon">🧀</div>
                             <h3>Crémerie</h3>
+                            <span class="category-count">20 produits</span>
+                        </div>
+                    </a>
+                    <a href="#" class="category-card category-card--boissons" data-filter="boissons">
+                        <div class="category-bg" style="background-image: url('https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&q=80');"></div>
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <div class="category-icon">🍹</div>
+                            <h3>Boissons</h3>
+                            <span class="category-count">5 produits</span>
                         </div>
                     </a>
                 </div>
             </div>
         </section>
 
-        <section class="products">
+        <!-- PRODUCTS -->
+        <section class="products" id="products">
             <div class="container">
-                <h2>Produits Phares</h2>
+                <div class="section-header">
+                    <div class="section-header-left">
+                        <div class="section-label">Sélection du moment</div>
+                        <h2>Produits <em>Phares</em></h2>
+                    </div>
+                    <span class="section-header-meta">13 produits • Mis à jour aujourd'hui</span>
+                </div>
+
+                <!-- FILTER BAR -->
+                <div class="filter-bar">
+                    <button class="filter-btn active" data-filter="all">
+                        <span class="filter-dot"></span> Tout
+                    </button>
+                    <button class="filter-btn" data-filter="bio">
+                        <span class="filter-dot bio"></span> Bio
+                    </button>
+                    <button class="filter-btn" data-filter="promo">
+                        <span class="filter-dot promo"></span> Promos
+                    </button>
+                    <button class="filter-btn" data-filter="legumes">
+                        <span class="filter-dot veg"></span> Légumes
+                    </button>
+                    <button class="filter-btn" data-filter="fruits">
+                        <span class="filter-dot fruit"></span> Fruits
+                    </button>
+                    <button class="filter-btn" data-filter="epicerie">
+                        <span class="filter-dot epic"></span> Épicerie
+                    </button>
+                    <button class="filter-btn" data-filter="boissons">
+                        <span class="filter-dot drink"></span> Boissons
+                    </button>
+                </div>
+
                 <div id="product-container" class="product-grid"></div>
                 <div id="no-results-message" class="no-results">
-                    <p>Désolé, aucune saveur locale ne correspond à votre recherche 🫗</p>
-                    <button id="reset-search-btn">Réinitialiser la recherche</button>
+                    <div class="no-results-icon">🫗</div>
+                    <p>Aucun produit trouvé pour cette recherche</p>
+                    <button id="reset-search-btn">Réinitialiser</button>
                 </div>
             </div>
         </section>
     </main>
 
     <footer class="site-footer">
+        <div class="footer-glow"></div>
         <div class="container footer-grid">
-            <!-- Newsletter -->
-            <div class="footer-col">
-                <h3>Restez informés</h3>
-                <p>Inscrivez-vous à notre newsletter pour recevoir nos offres exclusives et recettes de saison.</p>
+            <div class="footer-col footer-brand">
+                <div class="footer-logo">
+                    <svg viewBox="0 0 40 40" fill="none" width="32">
+                        <path d="M20 8 C14 14 10 18 12 24 C14 30 26 30 28 24 C30 18 26 14 20 8Z" fill="currentColor" opacity="0.9"/>
+                        <path d="M20 8 L20 26" stroke="white" stroke-width="1.5"/>
+                    </svg>
+                    <span>Saveurs Locales</span>
+                </div>
+                <p>L'épicerie du futur, ancrée dans les traditions locales.</p>
                 <form class="newsletter-form">
-                    <input type="email" placeholder="Votre email" required aria-label="Votre adresse email">
-                    <button type="submit">S'inscrire</button>
+                    <input type="email" placeholder="Votre email" required>
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>
 
-            <!-- Liens Utiles -->
             <div class="footer-col">
-                <h3>Liens Utiles</h3>
+                <h3>Navigation</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Épicerie</a></li>
+                    <li><a href="#">Produits Frais</a></li>
+                    <li><a href="#">Boissons</a></li>
+                    <li><a href="#">Promotions</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Légal</h3>
                 <ul class="footer-links">
                     <li><a href="#">Mentions Légales</a></li>
                     <li><a href="#">CGV</a></li>
-                    <li><a href="#">Politique de Confidentialité</a></li>
+                    <li><a href="#">Confidentialité</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>
             </div>
 
-            <!-- Paiement -->
             <div class="footer-col">
                 <h3>Paiement Sécurisé</h3>
                 <div class="payment-icons">
-                    <i class="fab fa-cc-visa" aria-hidden="true" title="Visa"></i>
-                    <i class="fab fa-cc-mastercard" aria-hidden="true" title="Mastercard"></i>
-                    <i class="fab fa-cc-paypal" aria-hidden="true" title="PayPal"></i>
+                    <i class="fab fa-cc-visa" title="Visa"></i>
+                    <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+                    <i class="fab fa-cc-paypal" title="PayPal"></i>
+                </div>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
             <div class="container">
                 <p>&copy; 2024 Saveurs Locales. Tous droits réservés.</p>
+                <div class="footer-line"></div>
             </div>
         </div>
     </footer>
 
-    <!-- Theme Toggle Button -->
-    <button id="theme-toggle" class="theme-toggle" aria-label="Basculer le thème">
+    <button id="theme-toggle" class="theme-toggle" aria-label="Thème">
         <i class="fas fa-moon"></i>
     </button>
 
-    <!-- Custom Cursor -->
     <div class="custom-cursor"></div>
+    <div class="cursor-trail"></div>
 
     <script src="script.js"></script>
 </body>
